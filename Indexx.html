@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Manasi ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Comic Sans MS', cursive;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  overflow:hidden;
+}
+
+.center{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+
+h1{color:white}
+
+button{
+  padding:15px 30px;
+  border:none;
+  border-radius:30px;
+  font-size:1.2rem;
+  margin:10px;
+}
+
+#yesBtn{
+  background:#ff4d6d;
+  color:white;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+  100%{transform:scale(1)}
+}
+
+#noBtn{
+  background:white;
+  color:#ff4d6d;
+  position:absolute;
+}
+
+/* RESULT SCREEN */
+.fullscreen{
+  display:none;
+  width:100vw;
+  height:100vh;
+  background:black;
+  color:white;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  position:relative;
+  padding:20px;
+}
+
+.note{
+  font-size:1.3rem;
+  max-width:90%;
+  animation:fadePop 1.2s ease;
+  z-index:2;
+}
+
+@keyframes fadePop{
+  0%{opacity:0; transform:scale(0.8)}
+  100%{opacity:1; transform:scale(1)}
+}
+
+/* PHOTOS */
+.photo{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  position:absolute;
+  top:0;
+  left:0;
+  animation:fade 1s;
+}
+
+@keyframes fade{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+/* CONFETTI */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="center" id="askPage">
+  <h1>
+    Manasi Gaikwad (Panipuri) 💖<br><br>
+    Will you go on a Valentine’s date with me? 🌹
+  </h1>
+
+  <button id="yesBtn" onclick="yesClicked()">YES 😍</button>
+  <button id="noBtn">NO 🙈</button>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<div class="fullscreen" id="screen">
+  <div class="note" id="note">
+    I knew it my love that you will be saying YES to me and see u said it.
+       So now this valentine's day will be soo happy and romantic for us and as it's day of love I want to say you that.
+    <br><br>
+    <b>I LOVE YOU BAACHAA 🫂 😘 ❤️</b>
+  </div>
+</div>
+
+<script>
+// FLOATING NO BUTTON
+const noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+  noBtn.style.top=Math.random()*80+"vh";
+  noBtn.style.left=Math.random()*80+"vw";
+});
+
+// YES CLICK
+function yesClicked(){
+  document.getElementById("askPage").style.display="none";
+  document.getElementById("screen").style.display="flex";
+  startConfetti();
+
+  // PHOTOS AFTER NOTE
+  const photos=["photo1.jpg","photo2.jpg",,"photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.jpg"];
+  let i=0;
+
+  setTimeout(()=>{
+    const img=document.createElement("img");
+    img.src=photos[0];
+    img.className="photo";
+    document.getElementById("screen").appendChild(img);
+
+    setInterval(()=>{
+      i=(i+1)%photos.length;
+      img.src=photos[i];
+    },2500);
+  },4500);
+}
+
+// CONFETTI EXPLOSION
+function startConfetti(){
+  const canvas=document.getElementById("confetti");
+  const ctx=canvas.getContext("2d");
+  canvas.width=innerWidth;
+  canvas.height=innerHeight;
+
+  const pieces=[];
+  for(let i=0;i<180;i++){
+    pieces.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*6+4,
+      dy:Math.random()*3+2
+    });
+  }
+
+  setInterval(()=>{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="pink";
+    pieces.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+      p.y+=p.dy;
+      if(p.y>canvas.height) p.y=0;
+    });
+  },20);
+}
+</script>
+
+</body>
+</html>
